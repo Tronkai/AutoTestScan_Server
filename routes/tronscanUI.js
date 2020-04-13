@@ -11,9 +11,9 @@ function mysql(){
     var test = "";
     var mysql      = require('mysql');
     var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
-        password : 'zK199595@'
+        host     : '39.105.200.151',
+        user     : 'AutoTestScan',
+        password : 'root'
     });
 
     connection.connect();
