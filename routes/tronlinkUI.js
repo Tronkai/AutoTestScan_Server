@@ -1,9 +1,12 @@
 var express = require('express');
 var api = express.Router();
 var result = {};
+var lastresult = {};
+mysql();
 api.get("/tronlinkui",function (req, res) {
     res.json(mysql());
 });
+mysqllast();
 api.get("/tronlinkui/lastest",function (req, res) {
     res.json(mysqllast());
 });
@@ -44,10 +47,10 @@ function mysqllast(){
         if (err) throw err;
         console.log('The solution is: ', rows);
         var string=JSON.stringify(rows);
-        result = JSON.parse(string);
-        console.log(result)
+        lastresult = JSON.parse(string);
+        console.log(lastresult)
     });
 
     connection.end();
-    return result;
+    return lastresult;
 }
