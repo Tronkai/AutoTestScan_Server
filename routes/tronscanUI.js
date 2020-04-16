@@ -6,7 +6,7 @@ api.get("/tronscanui",function (req, res) {
     res.json(mysql());
 });
 api.get("/tronscanui/lastest",function (req, res) {
-    res.json(mysql());
+    res.json(mysqllast());
 });
 module.exports = api;
 
