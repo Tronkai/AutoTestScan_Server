@@ -20,7 +20,7 @@ function mysql(){
     });
 
     connection.connect();
-    connection.query('SELECT * FROM `AutoTestScan`.`tronscanUI` where to_days(time) = to_days(now())', function(err, rows, fields) {
+    connection.query('SELECT * FROM `AutoTestScan`.`tronscanUI` order by id desc', function(err, rows, fields) {
         if (err) throw err;
         console.log('The solution is: ', rows);
         var string=JSON.stringify(rows);
