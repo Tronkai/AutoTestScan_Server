@@ -2,6 +2,7 @@ var express = require('express');
 var api = express.Router();
 var result = {};
 var lastresult = {};
+var todayresult = {};
 mysql()
 api.get("/tronscanui",function (req, res) {
     res.json(mysql());
@@ -9,6 +10,10 @@ api.get("/tronscanui",function (req, res) {
 mysqllast()
 api.get("/tronscanui/lastest",function (req, res) {
     res.json(mysqllast());
+});
+mysqltoday()
+api.get("/tronscanui/today",function (req, res) {
+    res.json(mysqltoday());
 });
 module.exports = api;
 
@@ -50,7 +55,36 @@ function mysqllast(){
         lastresult = JSON.parse(string);
         console.log(lastresult)
     });
-
     connection.end();
     return lastresult;
+}
+
+function mysqltoday(){
+    var mysql      = require('mysql');
+    var connection = mysql.createConnection({
+        host     : '39.105.200.151',
+        user     : 'AutoTestScan',
+        password : 'root'
+    });
+
+    connection.connect();
+    connection.query('SELECT COUNT(*) as "todaysum" FROM `AutoTestScan`.`tronscanUI` where to_days(time) = to_days(now())', function(err, rows, fields) {
+        if (err) throw err;
+        todayresult["todaysum"] = rows[0].todaysum;
+
+    });
+
+    connection.query('SELECT COUNT(*) as "todayfail" FROM `AutoTestScan`.`tronscanUI` where to_days(time) = to_days(now()) and `status` = 2', function(err, rows, fields) {
+        if (err) throw err;
+        todayresult["todayfail"] = rows[0].todayfail;
+
+    });
+
+    connection.query('SELECT COUNT(*) as "todaysucess" FROM `AutoTestScan`.`tronscanUI` where to_days(time) = to_days(now()) and `status` = 1', function(err, rows, fields) {
+        if (err) throw err;
+        todayresult["todaysucess"] = rows[0].todaysucess;
+
+    });
+    connection.end();
+    return todayresult;
 }

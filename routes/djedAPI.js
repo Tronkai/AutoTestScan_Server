@@ -2,6 +2,8 @@ var express = require('express');
 var api = express.Router();
 var result = {};
 var lastresult = {};
+var todayresult = {};
+
 mysql();
 api.get("/djed",function (req, res) {
     res.json(mysql())
@@ -9,6 +11,10 @@ api.get("/djed",function (req, res) {
 mysqllast()
 api.get("/djed/lastest",function (req, res) {
     res.json(mysqllast());
+});
+mysqltoday()
+api.get("/djed/today",function (req, res) {
+    res.json(mysqltoday());
 });
 module.exports = api;
 
@@ -53,4 +59,33 @@ function mysqllast(){
 
     connection.end();
     return lastresult;
+}
+function mysqltoday(){
+    var mysql      = require('mysql');
+    var connection = mysql.createConnection({
+        host     : '39.105.200.151',
+        user     : 'AutoTestScan',
+        password : 'root'
+    });
+
+    connection.connect();
+    connection.query('SELECT COUNT(*) as "todaysum" FROM `AutoTestScan`.`djedAPI` where to_days(time) = to_days(now())', function(err, rows, fields) {
+        if (err) throw err;
+        todayresult["todaysum"] = rows[0].todaysum;
+
+    });
+
+    connection.query('SELECT COUNT(*) as "todayfail" FROM `AutoTestScan`.`djedAPI` where to_days(time) = to_days(now()) and `status` = 2', function(err, rows, fields) {
+        if (err) throw err;
+        todayresult["todayfail"] = rows[0].todayfail;
+
+    });
+
+    connection.query('SELECT COUNT(*) as "todaysucess" FROM `AutoTestScan`.`djedAPI` where to_days(time) = to_days(now()) and `status` = 1', function(err, rows, fields) {
+        if (err) throw err;
+        todayresult["todaysucess"] = rows[0].todaysucess;
+
+    });
+    connection.end();
+    return todayresult;
 }
