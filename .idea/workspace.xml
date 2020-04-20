@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874235e0-a8cf-4639-85f4-d250cb406543" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/djedAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/djedAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/tronlinkAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/tronlinkAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/tronlinkUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/tronlinkUI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/tronscanAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/tronscanAPI.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/tronscanUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/tronscanUI.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

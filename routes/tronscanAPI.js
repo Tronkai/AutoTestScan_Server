@@ -28,7 +28,7 @@ function mysql(){
     });
 
     connection.connect();
-    connection.query('SELECT * FROM `AutoTestScan`.`tronscanAPI` order by id desc imit 30', function(err, rows, fields) {
+    connection.query('SELECT * FROM `AutoTestScan`.`tronscanAPI` order by id desc limit 30', function(err, rows, fields) {
         if (err) throw err;
         console.log('The solution is: ', rows);
         var string=JSON.stringify(rows);
