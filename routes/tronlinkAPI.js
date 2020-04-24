@@ -49,7 +49,7 @@ function mysqllast(){
     });
 
     connection.connect();
-    connection.query('SELECT * FROM `AutoTestScan`.`tronscanAPI` order by id DESC limit 1', function(err, rows, fields) {
+    connection.query('SELECT * FROM `AutoTestScan`.`tronlinkAPI` order by id DESC limit 1', function(err, rows, fields) {
         if (err) throw err;
         console.log('The solution is: ', rows);
         var string=JSON.stringify(rows);
