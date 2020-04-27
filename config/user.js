@@ -1,4 +1,4 @@
 let counter = 0
-var user = {
+var sql= {
     query :'select * from users where username = ?'
 }

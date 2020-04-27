@@ -9,6 +9,7 @@ var tronscanAPIRouter = require('./routes/tronscanAPI')
 var djedAPIRouter = require('./routes/djedAPI')
 var tronlinAPIRouter = require('./routes/tronlinkAPI')
 var tronlinUIRouter = require('./routes/tronlinkUI')
+var usersRouter = require('./routes/users')
 var app = express();
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -22,6 +23,7 @@ app.use("/",tronscanUIRouter);
 app.use("/",tronscanAPIRouter)
 app.use("/",djedAPIRouter)
 app.use("/",tronlinAPIRouter)
+app.use("/",usersRouter)
 // app.use("/",tronlinUIRouter)
 // cron.schedule("* * * * *", function() {
 //   console.log("running a task every minute");
