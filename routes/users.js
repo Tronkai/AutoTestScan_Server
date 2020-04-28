@@ -3,6 +3,7 @@ var api = express.Router();
 const mysql = require('mysql');
 var db = require('../config/db');
 var user = require('../config/user');
+const jwt = require('jsonwebtoken');
 
 // api.post("/login",function (req, res) {
 //     let params = req.body;
@@ -63,8 +64,12 @@ api.post("/login",function (req, res) {
                     } else {
                         let response = result[0]
                         if (response.username == params.username && response.password == params.password){
+                            const token = jwt.sign({
+                                name : params.username,
+                            },'TRONSCANdfsfaasdf')
                             res.send({
                                 status:0,
+                                token:token,
                                 msg:'登录成功'
                             })
                             res.end()
