@@ -1,4 +1,5 @@
 var express = require('express');
+const http = require('http');
 var api = express.Router();
 var result = {};
 var lastresult = {};
@@ -15,8 +16,34 @@ mysqltoday()
 api.get("/tronscanui/today",function (req, res) {
     res.json(mysqltoday());
 });
-module.exports = api;
 
+api.get("/tronscanui/run",function (req,res) {
+    runTest();
+    http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan');
+    res.json("sucess")
+})
+module.exports = api;
+function runTest() {
+    var test = "";
+    var mysql      = require('mysql');
+    var connection = mysql.createConnection({
+        host     : '39.105.200.151',
+        user     : 'AutoTestScan',
+        password : 'root'
+    });
+
+    connection.connect();
+    connection.query('SELECT * FROM `AutoTestScan`.`tronscanUI` order by id desc  limit 30', function(err, rows, fields) {
+        if (err) throw err;
+        console.log('The solution is: ', rows);
+        var string=JSON.stringify(rows);
+        result = JSON.parse(string);
+        console.log(result)
+    });
+
+    connection.end();
+    return result;
+}
 function mysql(){
     var test = "";
     var mysql      = require('mysql');
