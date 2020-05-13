@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "http-errors": "~1.6.3",
@@ -19,6 +20,7 @@
     "@types/express": "^4.17.4",
     "body-parser": "^1.19.0",
     "ding-robot": "^1.0.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "request-promise": "^4.2.5"
   }
 }

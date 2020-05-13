@@ -1,5 +1,6 @@
 var express = require('express');
 const http = require('http');
+const axios = require("axios");
 var api = express.Router();
 var result = {};
 var lastresult = {};
@@ -18,31 +19,56 @@ api.get("/tronscanui/today",function (req, res) {
 });
 
 api.get("/tronscanui/run",function (req,res) {
-    runTest();
-    http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan');
-    res.json("sucess")
+    runTest()
+    res.json()
 })
 module.exports = api;
 function runTest() {
-    var test = "";
-    var mysql      = require('mysql');
-    var connection = mysql.createConnection({
-        host     : '39.105.200.151',
-        user     : 'AutoTestScan',
-        password : 'root'
-    });
-
-    connection.connect();
-    connection.query('SELECT * FROM `AutoTestScan`.`tronscanUI` order by id desc  limit 30', function(err, rows, fields) {
-        if (err) throw err;
-        console.log('The solution is: ', rows);
-        var string=JSON.stringify(rows);
-        result = JSON.parse(string);
-        console.log(result)
-    });
-
-    connection.end();
-    return result;
+    let test = 'sss';
+    axios.get("http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan").then(res=>{
+        test = res;
+    })
+    console.log(test);
+    // let getIP = ''
+    // try {
+    //     (async () => {
+    //         getIP = (await http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan', (res) => {
+    //             let itemUrl = res.headers.location + "api/json";
+    //             return itemUrl;
+    //             res.resume();
+    //         }).on('error', (e) => {
+    //             console.log(`Got error: ${e.message}`);
+    //         }))
+    //     })()
+    // } catch (e) {
+    //     console.log(e)
+    // }
+    // console.log(getIP)
+    // http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan', (res) => {
+    //     let itemUrl = res.headers.location + "api/json";
+    //     console.log(`Got queue_item: ${res.headers.location}`);
+    //     res.resume();
+    // }).on('error', (e) => {
+    //     console.log(`Got error: ${e.message}`);
+    // });
+    // var test = "";
+    // var mysql      = require('mysql');
+    // var connection = mysql.createConnection({
+    //     host     : '39.105.200.151',
+    //     user     : 'AutoTestScan',
+    //     password : 'root'
+    // });
+    // connection.connect();
+    // connection.query("INSERT INTO `AutoTestScan`.`tronscanAPI`(`time`, `status`, `sucessclass`, `sucessnum`,`failClass`,`failnum`,`sum`) VALUES ('"+time+"','"+status+"','"+sucessClass+"','"+sucessnum+"','"+failClass+"','"+failnum+"','"+sum+"')", function(err, rows, fields) {
+    //     if (err) throw err;
+    //     console.log('The solution is: ', rows);
+    //     var string=JSON.stringify(rows);
+    //     result = JSON.parse(string);
+    //     console.log(result)
+    // });
+    //
+    // connection.end();
+    // return result;
 }
 function mysql(){
     var test = "";

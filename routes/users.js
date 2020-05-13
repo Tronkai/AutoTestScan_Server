@@ -70,6 +70,7 @@ api.post("/login",function (req, res) {
                             res.send({
                                 status:0,
                                 token:token,
+                                username:params.username,
                                 msg:'登录成功'
                             })
                             res.end()
