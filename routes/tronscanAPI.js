@@ -16,6 +16,13 @@ mysqltoday()
 api.get("/tronscanapi/today",function (req, res) {
     res.json(mysqltoday());
 });
+api.get("/tronscanapi/run",function (req,res) {
+    var params = req.query;
+    console.log(params.users)
+    runTest();
+    // http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_Api/build?token=tronscan');
+    res.json(params)
+})
 module.exports = api;
 
 function mysql(){
