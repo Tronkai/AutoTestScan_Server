@@ -1,10 +1,15 @@
 var express = require('express');
 const http = require('http');
-const axios = require("axios");
+const rpn = require('request-promise-native');
+
 var api = express.Router();
 var result = {};
+var job = {};
+var jobqueue = {}
 var lastresult = {};
 var todayresult = {};
+var resultJob = {}
+
 mysql()
 api.get("/tronscanui",function (req, res) {
     res.json(mysql());
@@ -17,59 +22,69 @@ mysqltoday()
 api.get("/tronscanui/today",function (req, res) {
     res.json(mysqltoday());
 });
-
+jobQueue().then(r => job = r)
+api.get("/tronscanui/jobqueue",function (req,res) {
+    let jobmsg = {}
+    jobQueue().then(r => job = r)
+    jobmsg["inQueue"] = job.inQueue
+    jobmsg["lastBuildNumber"] = job.lastBuild.number
+    jobmsg["lastCompletedBuild"] = job.lastCompletedBuild.number
+    jobmsg["nextBuildNumber"] = job.nextBuildNumber
+    jobmsg["queueItem"] = job.queueItem
+    res.json(jobmsg)
+})
 api.get("/tronscanui/run",function (req,res) {
-    runTest()
-    res.json()
+    result = runJob()
+    res.json(result)
 })
 module.exports = api;
-function runTest() {
-    let test = 'sss';
-    axios.get("http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan").then(res=>{
-        test = res;
-    })
-    console.log(test);
-    // let getIP = ''
-    // try {
-    //     (async () => {
-    //         getIP = (await http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan', (res) => {
-    //             let itemUrl = res.headers.location + "api/json";
-    //             return itemUrl;
-    //             res.resume();
-    //         }).on('error', (e) => {
-    //             console.log(`Got error: ${e.message}`);
-    //         }))
-    //     })()
-    // } catch (e) {
-    //     console.log(e)
-    // }
-    // console.log(getIP)
-    // http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan', (res) => {
-    //     let itemUrl = res.headers.location + "api/json";
-    //     console.log(`Got queue_item: ${res.headers.location}`);
-    //     res.resume();
-    // }).on('error', (e) => {
-    //     console.log(`Got error: ${e.message}`);
-    // });
-    // var test = "";
-    // var mysql      = require('mysql');
-    // var connection = mysql.createConnection({
-    //     host     : '39.105.200.151',
-    //     user     : 'AutoTestScan',
-    //     password : 'root'
-    // });
-    // connection.connect();
-    // connection.query("INSERT INTO `AutoTestScan`.`tronscanAPI`(`time`, `status`, `sucessclass`, `sucessnum`,`failClass`,`failnum`,`sum`) VALUES ('"+time+"','"+status+"','"+sucessClass+"','"+sucessnum+"','"+failClass+"','"+failnum+"','"+sum+"')", function(err, rows, fields) {
-    //     if (err) throw err;
-    //     console.log('The solution is: ', rows);
-    //     var string=JSON.stringify(rows);
-    //     result = JSON.parse(string);
-    //     console.log(result)
-    // });
-    //
-    // connection.end();
-    // return result;
+
+async function jobQueue() {
+    const rpn = require('request-promise-native');
+    let options = {
+        method: 'GET',
+        uri: "http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/api/json",
+        // auth:{
+        //     'user' : 'tronlink',
+        //     'password' : 'tronlink',
+        //
+        // },
+        // resolveWithFullResponse: true
+    };
+    let res = await rpn(options);
+    return JSON.parse(res.toString())
 }
+
+function runJob() {
+    let resultJob = {}
+    jobQueue().then(r => job = r )
+    if (!job.inQueue){
+        if (job.lastBuild.number == job.lastCompletedBuild.number){
+            //没有正在执行的job，build直接开始
+            http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan');
+            resultJob['status'] = 1
+            resultJob['buildid'] = job.nextBuildNumber
+            resultJob['msg'] = "用例执行开始，请稍后"
+            return resultJob
+        }
+        else if(job.lastBuild.number > job.lastCompletedBuild.number){
+            //有正在执行的job，但队列未满，build加入队列
+            http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan');
+            resultJob['status'] = 2
+            resultJob['buildid'] = job.nextBuildNumber
+            resultJob['msg'] = "有未执行完成job，已加入执行队列，请稍后"
+            return resultJob
+        }
+    } else {
+        //有正在执行的job，且队列未满，build未执行
+        resultJob['status'] = 3
+        resultJob['queueItem'] = job.queueItem
+        resultJob['msg'] = "执行队列已满，请稍后再试"
+        return resultJob
+    }
+
+}
+
 function mysql(){
     var test = "";
     var mysql      = require('mysql');
