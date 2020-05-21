@@ -10,19 +10,19 @@ var todayresult = {};
 var resultJob = {}
 
 mysql();
-api.get("/tronlinkui",function (req, res) {
+api.get("/trongridapi",function (req, res) {
     res.json(mysql());
 });
 mysqllast();
-api.get("/tronlinkui/lastest",function (req, res) {
+api.get("/trongridapi/lastest",function (req, res) {
     res.json(mysqllast());
 });
 mysqltoday()
-api.get("/tronlinkui/today",function (req, res) {
+api.get("/trongridapi/today",function (req, res) {
     res.json(mysqltoday());
 });
 jobQueue().then(r => job = r)
-api.get("/tronlinkui/jobqueue",function (req,res) {
+api.get("/trongridapi/jobqueue",function (req,res) {
     let jobmsg = {}
     jobQueue().then(r => job = r)
     jobmsg["inQueue"] = job.inQueue
@@ -32,7 +32,7 @@ api.get("/tronlinkui/jobqueue",function (req,res) {
     jobmsg["queueItem"] = job.queueItem
     res.json(jobmsg)
 })
-api.get("/tronlinkui/run",function (req,res) {
+api.get("/trongridapi/run",function (req,res) {
     result = runJob()
     res.json(result)
 })
@@ -60,7 +60,7 @@ function runJob() {
     if (!job.inQueue){
         if (job.lastBuild.number == job.lastCompletedBuild.number){
             //没有正在执行的job，build直接开始
-            http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan');
+            http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Trongrid_Api/build?token=tronscan');
             resultJob['status'] = 1
             resultJob['buildid'] = job.nextBuildNumber
             resultJob['msg'] = "用例执行开始，请稍后"
@@ -68,7 +68,7 @@ function runJob() {
         }
         else if(job.lastBuild.number > job.lastCompletedBuild.number){
             //有正在执行的job，但队列未满，build加入队列
-            http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Tronscan_AutoTest/build?token=tronscan');
+            http.get('http://tronlink:tronlink@172.16.22.178:8080/job/Trongrid_Api/build?token=tronscan');
             resultJob['status'] = 2
             resultJob['buildid'] = job.nextBuildNumber
             resultJob['msg'] = "有未执行完成job，已加入执行队列，请稍后"
@@ -93,7 +93,7 @@ function mysql(){
     });
 
     connection.connect();
-    connection.query('SELECT * FROM `AutoTestScan`.`tronlinkUI` order by id desc  limit 30', function(err, rows, fields) {
+    connection.query('SELECT * FROM `AutoTestScan`.`trongridAPI` order by id desc  limit 30', function(err, rows, fields) {
         if (err) throw err;
         console.log('The solution is: ', rows);
         var string=JSON.stringify(rows);
@@ -114,7 +114,7 @@ function mysqllast(){
     });
 
     connection.connect();
-    connection.query('SELECT * FROM `AutoTestScan`.`tronlinkUI` order by id DESC limit 1', function(err, rows, fields) {
+    connection.query('SELECT * FROM `AutoTestScan`.`trongridAPI` order by id DESC limit 1', function(err, rows, fields) {
         if (err) throw err;
         console.log('The solution is: ', rows);
         var string=JSON.stringify(rows);
@@ -134,19 +134,19 @@ function mysqltoday(){
     });
 
     connection.connect();
-    connection.query('SELECT COUNT(*) as "todaysum" FROM `AutoTestScan`.`tronlinkUI` where to_days(time) = to_days(now())', function(err, rows, fields) {
+    connection.query('SELECT COUNT(*) as "todaysum" FROM `AutoTestScan`.`trongridAPI` where to_days(time) = to_days(now())', function(err, rows, fields) {
         if (err) throw err;
         todayresult["todaysum"] = rows[0].todaysum;
 
     });
 
-    connection.query('SELECT COUNT(*) as "todayfail" FROM `AutoTestScan`.`tronlinkUI` where to_days(time) = to_days(now()) and `status` = 2', function(err, rows, fields) {
+    connection.query('SELECT COUNT(*) as "todayfail" FROM `AutoTestScan`.`trongridAPI` where to_days(time) = to_days(now()) and `status` = 2', function(err, rows, fields) {
         if (err) throw err;
         todayresult["todayfail"] = rows[0].todayfail;
 
     });
 
-    connection.query('SELECT COUNT(*) as "todaysucess" FROM `AutoTestScan`.`tronlinkUI` where to_days(time) = to_days(now()) and `status` = 1', function(err, rows, fields) {
+    connection.query('SELECT COUNT(*) as "todaysucess" FROM `AutoTestScan`.`trongridAPI` where to_days(time) = to_days(now()) and `status` = 1', function(err, rows, fields) {
         if (err) throw err;
         todayresult["todaysucess"] = rows[0].todaysucess;
 

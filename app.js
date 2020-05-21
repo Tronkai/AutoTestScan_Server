@@ -9,6 +9,7 @@ var tronscanAPIRouter = require('./routes/tronscanAPI')
 var djedAPIRouter = require('./routes/djedAPI')
 var tronlinAPIRouter = require('./routes/tronlinkAPI')
 var tronlinUIRouter = require('./routes/tronlinkUI')
+var trongridAPIRouter = require('./routes/trongridAPI')
 var usersRouter = require('./routes/users')
 var app = express();
 app.all('*', function(req, res, next) {
@@ -26,6 +27,7 @@ app.use("/",tronscanAPIRouter)
 app.use("/",djedAPIRouter)
 app.use("/",tronlinAPIRouter)
 app.use("/",usersRouter)
+app.use("/",trongridAPIRouter)
 // app.use("/",tronlinUIRouter)
 // cron.schedule("* * * * *", function() {
 //   console.log("running a task every minute");
@@ -57,6 +59,7 @@ cron.schedule("0 30 22 * * *", function() {
   mysqltoday('tronscanAPI')
   mysqltoday('djedAPI')
   mysqltoday('tronlinkAPI')
+  mysqltoday('trongridAPI')
 
 });
 
