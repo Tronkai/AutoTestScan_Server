@@ -60,6 +60,7 @@ cron.schedule("0 30 22 * * *", function() {
   mysqltoday('tronscanUI')
   mysqltoday('tronscanAPI')
   mysqltoday('djedAPI')
+  mysqltoday('djedUI')
   mysqltoday('tronlinkAPI')
   mysqltoday('trongridAPI')
 
