@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874235e0-a8cf-4639-85f4-d250cb406543" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/routes/trongridAPI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/djedUI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/tronlinkUI.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/tronlinkUI.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +84,8 @@
       <workItem from="1588059586336" duration="135000" />
       <workItem from="1589178688894" duration="608000" />
       <workItem from="1589252367617" duration="3115000" />
-      <workItem from="1589350770910" duration="25757000" />
+      <workItem from="1589350770910" duration="26280000" />
+      <workItem from="1590650935205" duration="178000" />
     </task>
     <servers />
   </component>

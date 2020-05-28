@@ -7,6 +7,7 @@ var logger = require('morgan');
 var tronscanUIRouter = require('./routes/tronscanUI');
 var tronscanAPIRouter = require('./routes/tronscanAPI')
 var djedAPIRouter = require('./routes/djedAPI')
+var djedUIRouter = require('./routes/djedUI')
 var tronlinAPIRouter = require('./routes/tronlinkAPI')
 var tronlinUIRouter = require('./routes/tronlinkUI')
 var trongridAPIRouter = require('./routes/trongridAPI')
@@ -25,6 +26,7 @@ app.all('*', function(req, res, next) {
 app.use("/",tronscanUIRouter);
 app.use("/",tronscanAPIRouter)
 app.use("/",djedAPIRouter)
+app.use("/",djedUIRouter)
 app.use("/",tronlinAPIRouter)
 app.use("/",usersRouter)
 app.use("/",trongridAPIRouter)
