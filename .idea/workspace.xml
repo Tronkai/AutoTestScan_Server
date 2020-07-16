@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874235e0-a8cf-4639-85f4-d250cb406543" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/routes/djedUI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/tronwebAPI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
@@ -11,6 +11,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -85,7 +92,8 @@
       <workItem from="1589178688894" duration="608000" />
       <workItem from="1589252367617" duration="3115000" />
       <workItem from="1589350770910" duration="26280000" />
-      <workItem from="1590650935205" duration="178000" />
+      <workItem from="1590650935205" duration="4259000" />
+      <workItem from="1594880208134" duration="509000" />
     </task>
     <servers />
   </component>
